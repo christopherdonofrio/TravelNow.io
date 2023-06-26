@@ -1,0 +1,105 @@
+
+
+
+
+.mainHeading {
+    text-align: center;
+    /*
+    font-weight: 900;
+    font-family: "sovana-regular";
+    */
+    font-family: "ff-nexus-typewriter", sans-serif;
+    font-weight: 1000;
+    font-style: bold;
+    font-size: 150px;
+
+  }
+
+
+
+  .fade-in-text {
+    animation: fadeIn 5s;
+  }
+
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  .description {
+    font-size: 150px;
+
+
+    text-align: center;
+    font-size: 40px;
+    font-family: "ff-nexus-typewriter", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+  }
+
+  .large-break {
+    display: block;
+    height: 500px; /* Adjust the height as desired */
+    content: "";
+}
+
+.mid-break {
+  display: block;
+  height: 90px; /* Adjust the height as desired */
+  content: "";
+
+}
+
+.small-break {
+  display: block;
+  height: 30px; /* Adjust the height as desired */
+  content: "";
+
+}
+
+#getStarted {
+  text-align: center;
+  margin: 0;
+  position: absolute;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  background-color: #add8e6;
+  width: 480px;
+  height: 100px;
+  font-family: "ff-nexus-typewriter", sans-serif;
+  font-weight: 700;
+  font-size: 60px;
+
+}
+
+#tripDetails {
+  font-family: "ff-nexus-typewriter", sans-serif;
+  font-weight: 1000;
+  font-style: normal;
+}
+
+#results {
+  text-align: center;
+  /*
+  font-weight: 900;
+  font-family: "sovana-regular";
+  */
+  font-family: "ff-nexus-typewriter", sans-serif;
+  font-weight: 1000;
+  font-style: normal;
+  font-size: 115px;
+
+}
+
+#flight {
+  font-family: "ff-nexus-typewriter", sans-serif;
+  font-weight: 1000;
+  font-style: normal;
+}
+
+.font {
+  font-family: "ff-nexus-typewriter", sans-serif;
+}
