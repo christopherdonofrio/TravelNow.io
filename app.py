@@ -1,4 +1,4 @@
-from helpers import find_hotel, get_coordinates, search_locations, airport_icao, search_flights, daysBetween, food_prices, icao_to_iata
+from helpers import find_hotel, get_coordinates, search_locations, airport_iata, search_flights, daysBetween, food_prices
 from datetime import datetime
 from flask import Flask, request, render_template
 
@@ -72,8 +72,8 @@ def index():
 
         hotelData = find_hotel(departureDate, returnDate, lo)
 
-        originIata = icao_to_iata(airport_icao(originLat, originLong))
-        destinationIata = icao_to_iata(airport_icao(destinationLat, destinationLong))
+        originIata = airport_iata(originLat, originLong)
+        destinationIata = airport_iata(destinationLat, destinationLong)
 
 
         hotelData = find_hotel(departureDate, returnDate, lo)
@@ -126,7 +126,3 @@ def index():
 
     else:
         return render_template("index.html")
-
-
-
-
