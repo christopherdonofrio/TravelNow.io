@@ -3,6 +3,7 @@ from amadeus import Client, ResponseError
 from datetime import datetime, timedelta
 
 
+
 amadeus = Client(
     client_id='OcDbCgf0aEeZucRe82SAnwSxuqAELQLG',
     client_secret='A9GKRdmE46AF6SEc'
@@ -12,6 +13,7 @@ amadeus = Client(
 
 
 def get_coordinates(city):
+
     base_url = "https://maps.googleapis.com/maps/api/geocode/json"
     params = {
         "address": city,
@@ -40,6 +42,8 @@ def get_coordinates(city):
     return None
 
 
+
+
 def search_locations(destinationCity):
 
     url = "https://booking-com.p.rapidapi.com/v1/hotels/locations"
@@ -47,7 +51,7 @@ def search_locations(destinationCity):
     querystring = {"name":destinationCity,"locale":"en-us"}
 
     headers = {
-        "X-RapidAPI-Key": "0528073a1cmshd53ba56ff482893p11308cjsnccf3da3f7ea8",
+        "X-RapidAPI-Key": "07d802d843mshbec88c04c29cea6p1ccf88jsncf5e30b650fd",
         "X-RapidAPI-Host": "booking-com.p.rapidapi.com"
     }
 
@@ -78,7 +82,7 @@ def find_hotel(checkInDate, checkOutDate, lo):
     querystring = {"checkin_date":checkInDate,"dest_type":"city","units":"imperial","checkout_date":checkOutDate,"adults_number":"1","order_by":"price","dest_id":lo,"filter_by_currency":"USD","locale":"en-gb","room_number":"1"}
 
     headers = {
-        "X-RapidAPI-Key": "0528073a1cmshd53ba56ff482893p11308cjsnccf3da3f7ea8",
+        "X-RapidAPI-Key": "07d802d843mshbec88c04c29cea6p1ccf88jsncf5e30b650fd",
         "X-RapidAPI-Host": "booking-com.p.rapidapi.com"
     }
 
@@ -147,48 +151,24 @@ def find_hotel(checkInDate, checkOutDate, lo):
 
 
 
-def airport_icao(lat, long):
+def airport_iata(lat, long):
     url = "https://airlabs.co/api/v9/nearby"
 
     querystring = {"api_key": "5116d24e-8cb5-4138-987a-9476e954244f",
                    "lat":lat,
                    "lng":long,
-                   "distance": 400
+                   "distance": 500
                    }
 
 
-
     response = requests.get(url, params=querystring)
-
     data = response.json()
-
-    if "response" in data:
-        airports = data["response"].get("airports", [])
-        sorted_airports = sorted(airports, key=lambda x: x.get("popularity", 0), reverse=True)
-        data["response"]["airports"] = sorted_airports
-
-    return data['response']['airports'][0]['icao_code']
+    airports = data["response"]["airports"]
+    sorted_airports = sorted(airports, key=lambda x: x["popularity"], reverse=True)
+    return sorted_airports[0]["iata_code"]
 
 
 
-
-
-
-def icao_to_iata(icaoCode):
-
-    api_key = 'TFCTUGJ5JY44MjzgvHDG5g==CD5xoZsWvIs17l0a'
-
-    url = "https://api.api-ninjas.com/v1/airports"
-    headers = {'X-Api-Key': api_key}
-    params = {'icao': icaoCode}
-
-    try:
-        response = requests.get(url, headers=headers, params=params)
-        response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
-        result = response.json()
-        return result[0]['iata']
-    except requests.exceptions.RequestException as e:
-        print('Error:', e)
 
 
 
@@ -211,7 +191,7 @@ def search_flights(originIata, destIata, departDate, retDate):
 
 
 
-        if filter_data:
+        if filter_data is not None:
 
 
             date_string = filter_data[0]['itineraries'][0]['segments'][0]['departure']['at']
@@ -261,8 +241,14 @@ def search_flights(originIata, destIata, departDate, retDate):
             flightInfo['price'] = 0.0
 
             return flightInfo
-    except ResponseError as error:
-       print(error)
+    except:
+        flightInfo = {}
+
+        flightInfo['departureOrigin'] = "ERROR"
+        flightInfo['departureDest'] = "ERROR"
+        flightInfo['price'] = 0.0
+
+        return flightInfo
 
     """
 
@@ -289,43 +275,49 @@ def daysBetween(firstDate, secondDate):
 
 def food_prices(city, country):
 
-    if country == "USA":
-        country = "United States"
-    elif country == "UK":
-        country = "United Kingdom"
-
-    url = "https://cost-of-living-and-prices.p.rapidapi.com/prices"
-
-    querystring = {"city_name":city,"country_name":country}
-
-    headers = {
-        "X-RapidAPI-Key": "0528073a1cmshd53ba56ff482893p11308cjsnccf3da3f7ea8",
-        "X-RapidAPI-Host": "cost-of-living-and-prices.p.rapidapi.com"
-    }
-
-    response = requests.get(url, headers=headers, params=querystring)
-
-    data = response.json()
-
-    if not data:
-        foodPerDay = 0.0
-        transportationPerDay = 0.0
-    else:
-        foodPerDay = round((float(data['prices'][35]['usd']['avg']) * 3), 2)
-        transportationPerDay = round((float(data['prices'][42]['usd']['avg']) * 5), 2)
-
-
-
-
     finalData = []
 
-    finalData.append(foodPerDay)
-    finalData.append(transportationPerDay)
+
+    try:
+
+        if country == "USA":
+            country = "United States"
+        elif country == "UK":
+            country = "United Kingdom"
+
+        url = "https://cost-of-living-and-prices.p.rapidapi.com/prices"
+
+        querystring = {"city_name":city,"country_name":country}
+
+        headers = {
+            "X-RapidAPI-Key": "07d802d843mshbec88c04c29cea6p1ccf88jsncf5e30b650fd",
+            "X-RapidAPI-Host": "cost-of-living-and-prices.p.rapidapi.com"
+        }
+
+        response = requests.get(url, headers=headers, params=querystring)
+
+        data = response.json()
+
+        if not data:
+            foodPerDay = 0.0
+            transportationPerDay = 0.0
+        else:
+            foodPerDay = round((float(data['prices'][35]['usd']['avg']) * 3), 2)
+            transportationPerDay = round((float(data['prices'][42]['usd']['avg']) * 5), 2)
+
+
+
+
+
+        finalData.append(foodPerDay)
+        finalData.append(transportationPerDay)
+
+    except:
+
+        finalData.append(0.0)
+        finalData.append(0.0)
+
 
     return finalData
-
-
-
-
 
 
