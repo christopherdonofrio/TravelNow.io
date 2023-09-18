@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link href="/static/styles.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.typekit.net/aib2tiu.css">
+
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    </head>
+
+
+    <body style="background-color:#F9F6EE;" class="fade-in-text">
+
+    {% if foodPerDay == 0.0 %}
+            <br class="mid-break">
+            <h1 class="font" style="font-size: 90px; font-weight: 1000; text-align: center;">ERROR</h1>
+            <p class="font" style="font-size: 60px; font-weight: 500; text-align: center;">One of the API limits has been reached, try again in an hour.</p>
+
+    {% elif hotelData[4] == "https://placehold.co/600x400/png"%}
+            <br class="mid-break">
+            <h1 class="font" style="font-size: 90px; font-weight: 1000; text-align: center;">ERROR</h1>
+
+            <p class="font" style="font-size: 60px; font-weight: 500; text-align: center;">This destination is not available within our available data. If you believe this is a mistake, change the destination to a broader area, such as a major city or region nearby.</p>
+    {% elif flightData['departureOrigin'] == "ERROR" %}
+            <br class="mid-break">
+            <h1 class="font" style="font-size: 90px; font-weight: 1000; text-align: center;">ERROR</h1>
+
+            <p class="font" style="font-size: 60px; font-weight: 500; text-align: center;">We couldn't find an airport within 500km of this location, try changing it it a broader region.</p>
+    {% else %}
+            <h1 id="results">Results</h1>
+
+            <br style="display: block; height: 100px;">
+
+            <div id="flight" style="text-align: center;">
+                <p style="font-size: 70px; font-weight: 1000; text-align: left">Flight:</p>
+                <p style="font-size: 50px; font-weight:700;">Departing Flight</p>
+                <br>
+                <p style="font-size: 30px; font-weight: 300;">{{ flightData['departureOrigin'] }} @ {{ originIata }} -----> {{ destinationCity }}</p>
+
+                <br>
+                <p style="font-size: 50px; font-weight:700;"">Returning Flight</p>
+                <br>
+                <p style="font-size: 30px; font-weight: 300;">{{ flightData['departureDest'] }} @ {{ destinationIata }} -----> {{ originCity }}</p>
+                <br>
+                <p style="font-weight: 1500; font-size: 50px">Price (Round Trip): <p style="font-weight: 1500; font-size: 50px; display: inline;">${{ flightData['price'] }}</p></p>
+                <br>
+            </div>
+
+            <p class="font" style="font-size: 70px; font-weight: 1000; text-align: left">Hotels:</p>
+
+            <div id="hotels" class="font" style="text-align: center; display: flex; justify-content: space-between; font-size: 20px;">
+                <div style="flex-basis: 33%;">
+                    <a href="{{ hotelData[3] }}">
+                        <p>{{ hotelData[0] }}</p>
+                    </a>
+                    <p>Review Score: {{ hotelData[2] }}/10</p>
+
+                    <p style="font-weight: 1000">Price: ${{ hotelData[1] }}/Night</p>
+                    <img src="{{ hotelData[4] }}" width="400" height="400">
+                </div>
+                <div style="flex-basis: 33%;">
+                    <a href="{{ hotelData[8] }}">
+                        <p>{{ hotelData[5] }}</p>
+                    </a>
+                    <p>Review Score: {{ hotelData[7] }}/10</p>
+                    <p style="font-weight: 1000">Price: ${{ hotelData[6] }}/Night</p>
+
+                    <img src="{{ hotelData[9] }}" width="400" height="400">
+                </div>
+                <div style="flex-basis: 33%;">
+
+                    <a href="{{ hotelData[13] }}">
+                        <p>{{ hotelData[10] }}</p>
+                    </a>
+                    <p>Review Score: {{ hotelData[12] }}/10</p>
+                    <p style="font-weight: 1000">Price: ${{ hotelData[11] }}/Night</p>
+                    <img src="{{ hotelData[14] }}" width="400" height="400">
+                </div>
+            </div>
+
+            <br>
+
+
+
+            <p class="font" style="font-size: 70px; font-weight: 1000; text-align: left">Food and Transportation:</p>
+            <br>
+            <div style="text-align: center;" class="font">
+
+                <p style="font-size: 45px; font-weight: 300;">Food Per Day: <a style="font-size: 35px; font-weight: 700;">${{ foodPerDay }}</a><p>
+                <p style="font-size: 45px; font-weight: 300;">Transportation Per Day: <a style="font-size: 35px; font-weight: 700;">${{ transportationPerDay }}</a></p>
+                <br>
+                <p style="font-size: 35px; font-weight: 200;">This assumes you eat at cheap restaurants and take local transit, may vary depending on location. This is just an estimate.</p>
+
+            </div>
+            <br>
+
+            <p class="font" style="font-size: 70px; font-weight: 1000; text-align: left">Budget Calculations:</p>
+            <br>
+            <div class="font" style="text-align: left; font-size: 50px; font-weight: 400; display: flex; justify-content: center;">
+                <table>
+                    <tr>
+                        <td>Initial Budget:</td>
+                        <td style="font-weight: 800;">${{ initialBudget }}</td>
+                    </tr>
+                    <tr>
+                        <td>Plane Ticket:</td>
+                        <td style="font-weight: 800;">${{ expenses[0] }}</td>
+                    </tr>
+                    <tr>
+                        <td>Hotel:</td>
+                        <td style="font-weight: 800;">${{ expenses[1] }}</td>
+                    </tr>
+                    <tr>
+                        <td>Food:</td>
+                        <td style="font-weight: 800;">${{ expenses[2] }}</td>
+                    </tr>
+                    <tr>
+                        <td>Transportation:</td>
+                        <td style="font-weight: 800;">${{ expenses[3] }}</td>
+                    </tr>
+                    <br>
+                    <br>
+                    <tr>
+                        <td>Remaining Balance:</td>
+                        <td style="font-weight: 800;">${{ budget }}</td>
+                    </tr>
+                    </table>
+
+            </div>
+
+            <br>
+
+
+            <div class="font">
+
+                <p class="font" style="font-size: 70px; font-weight: 1000; text-align: left">Conclusion:</p>
+                <br>
+
+
+
+                <p style="font-size: 100px; font-weight: 800; text-align: center">{{ congrats }}</p>
+                <br>
+
+                <p style="font-size: 70px; font-weight: 500; text-align: center">{{ message }}</p>
+            </div>
+
+            <br>
+            <br>
+            <br>
+
+
+
+
+
+
+
+
+    {% endif %}
+
+
+
+
+    </body>
+
+    </html>
