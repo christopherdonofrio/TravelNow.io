@@ -17,7 +17,7 @@ def get_coordinates(city):
     base_url = "https://maps.googleapis.com/maps/api/geocode/json"
     params = {
         "address": city,
-        "key": "AIzaSyCwvs0UcY6VT69tRbWa2xsapcKuBc80LtM"
+        "key": "AIzaSyCXqmMt03kHM4v_iSiC4pG6cWejjWbVhaA"
     }
 
     response = requests.get(base_url, params=params)
@@ -51,7 +51,7 @@ def search_locations(destinationCity):
     querystring = {"name":destinationCity,"locale":"en-us"}
 
     headers = {
-        "X-RapidAPI-Key": "07d802d843mshbec88c04c29cea6p1ccf88jsncf5e30b650fd",
+        "X-RapidAPI-Key": "a09a1febc0msh52d994e4a7504e3p1458c9jsnbd5fffa51e82",
         "X-RapidAPI-Host": "booking-com.p.rapidapi.com"
     }
 
@@ -82,7 +82,7 @@ def find_hotel(checkInDate, checkOutDate, lo):
     querystring = {"checkin_date":checkInDate,"dest_type":"city","units":"imperial","checkout_date":checkOutDate,"adults_number":"1","order_by":"price","dest_id":lo,"filter_by_currency":"USD","locale":"en-gb","room_number":"1"}
 
     headers = {
-        "X-RapidAPI-Key": "07d802d843mshbec88c04c29cea6p1ccf88jsncf5e30b650fd",
+        "X-RapidAPI-Key": "a09a1febc0msh52d994e4a7504e3p1458c9jsnbd5fffa51e82",
         "X-RapidAPI-Host": "booking-com.p.rapidapi.com"
     }
 
@@ -290,7 +290,7 @@ def food_prices(city, country):
         querystring = {"city_name":city,"country_name":country}
 
         headers = {
-            "X-RapidAPI-Key": "07d802d843mshbec88c04c29cea6p1ccf88jsncf5e30b650fd",
+            "X-RapidAPI-Key": "a09a1febc0msh52d994e4a7504e3p1458c9jsnbd5fffa51e82",
             "X-RapidAPI-Host": "cost-of-living-and-prices.p.rapidapi.com"
         }
 
