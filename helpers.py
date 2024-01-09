@@ -3,11 +3,8 @@ from amadeus import Client, ResponseError
 from datetime import datetime, timedelta
 
 
+amadeus = Client(client_id='5tSKDdKe29rqFDdjgs2EOMipQjC8zWmc', client_secret='toVxF0YiT5i4EisN')
 
-amadeus = Client(
-    client_id='OcDbCgf0aEeZucRe82SAnwSxuqAELQLG',
-    client_secret='A9GKRdmE46AF6SEc'
-    )
 
 
 
@@ -177,17 +174,14 @@ def search_flights(originIata, destIata, departDate, retDate):
 
     try:
         response = amadeus.shopping.flight_offers_search.get(
-            originLocationCode=originIata,
-            destinationLocationCode=destIata,
-            departureDate=departDate,
-            returnDate=retDate,
-            adults=1,
-            max=1,
-            currencyCode='USD'
-        )
+        originLocationCode=originIata,
+        destinationLocationCode=destIata,
+        departureDate=departDate,
+        returnDate=retDate,
+        adults=1)
+        
+        
         filter_data = response.data
-
-        flightInfo = {}
 
 
 
@@ -199,25 +193,14 @@ def search_flights(originIata, destIata, departDate, retDate):
             formatted_date = datetime_obj.strftime("%B %d, %Y")
             formatted_time = datetime_obj.strftime("%I:%M %p")
 
-            """
-
-            date_string1 = filter_data[0]['itineraries'][0]['segments'][-1]['arrival']['at']
-            datetime_obj1 = datetime.fromisoformat(date_string1)
-            formatted_date1 = datetime_obj1.strftime("%B %d, %Y")
-            formatted_time1 = datetime_obj1.strftime("%I:%M %p")
-            """
+        
 
             date_string2 = filter_data[0]['itineraries'][1]['segments'][0]['departure']['at']
             datetime_obj2 = datetime.fromisoformat(date_string2)
             formatted_date2 = datetime_obj2.strftime("%B %d, %Y")
             formatted_time2 = datetime_obj2.strftime("%I:%M %p")
 
-            """
-            date_string3 = filter_data[0]['itineraries'][1]['segments'][-1]['arrival']['at']
-            datetime_obj3 = datetime.fromisoformat(date_string3)
-            formatted_date3 = datetime_obj3.strftime("%B %d, %Y")
-            formatted_time3 = datetime_obj3.strftime("%I:%M %p")
-            """
+        
 
 
             departureOrigin = formatted_time + " on " + formatted_date
@@ -233,15 +216,19 @@ def search_flights(originIata, destIata, departDate, retDate):
             flightInfo['departureDest'] = departureDest
             flightInfo['price'] = filter_data[0]['price']['grandTotal']
 
-            return flightInfo
+
+
         else:
 
-            flightInfo['departureOrigin'] = "ERROR"
+            flightInfo['departureOrigin'] = "skuh"
             flightInfo['departureDest'] = "ERROR"
             flightInfo['price'] = 0.0
 
-            return flightInfo
-    except:
+        
+        return flightInfo
+        
+    except ResponseError as e:
+        print(f"Amadeus API asdkojklasdfalsd: {e}")
         flightInfo = {}
 
         flightInfo['departureOrigin'] = "ERROR"
@@ -249,12 +236,8 @@ def search_flights(originIata, destIata, departDate, retDate):
         flightInfo['price'] = 0.0
 
         return flightInfo
+ 
 
-    """
-
-    except ResponseError as error:
-        print("error")
-    """
 
 
 
