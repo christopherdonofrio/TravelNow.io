@@ -179,7 +179,7 @@ def search_flights(originIata, destIata, departDate, retDate):
         departureDate=departDate,
         returnDate=retDate,
         adults=1)
-        
+
         
         filter_data = response.data
 
@@ -228,7 +228,7 @@ def search_flights(originIata, destIata, departDate, retDate):
         return flightInfo
         
     except ResponseError as e:
-        print(f"Amadeus API asdkojklasdfalsd: {e}")
+        print(f"Amadeus API : {e}")
         flightInfo = {}
 
         flightInfo['departureOrigin'] = "ERROR"

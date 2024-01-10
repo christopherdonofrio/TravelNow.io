@@ -77,7 +77,11 @@ def index():
 
 
         hotelData = find_hotel(departureDate, returnDate, lo)
-        flightData = search_flights(originIata, destinationIata, departureDate, returnDate)
+        flightData = {}
+        flightData['departureOrigin'] = "skuh"
+        flightData['departureDest'] = "ERROR"
+        flightData['price'] = 0.0 
+        #flightData = search_flights(originIata, destinationIata, departureDate, returnDate)
 
 
         foodAndTransport = food_prices(destinationCity, destinationCountry)
