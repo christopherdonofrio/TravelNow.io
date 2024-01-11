@@ -14,10 +14,13 @@ from amadeus import Client, ResponseError
 #food_prices(city, country):
 
 
+print(get_coordinates("Athens"))
+print(find_hotel("2024-04-04", "2024-04-09", search_locations("Athens")))
+print(airport_iata(32, 34))
+print(food_prices("Athens", "Greece"))
 
 
-
-
+"""
 amadeus = Client(client_id='5tSKDdKe29rqFDdjgs2EOMipQjC8zWmc', client_secret='toVxF0YiT5i4EisN')
 
 try:
@@ -29,4 +32,4 @@ try:
     print(response.data)
 except ResponseError as error:
     print(error)
-
+"""

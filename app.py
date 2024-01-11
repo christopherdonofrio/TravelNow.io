@@ -1,17 +1,16 @@
 from helpers import find_hotel, get_coordinates, search_locations, airport_iata, search_flights, daysBetween, food_prices
 from datetime import datetime
 from flask import Flask, request, render_template
+import logging
+
 
 
 
 # Configure application
 app = Flask(__name__)
 
-
-#Declare make and model lists for autocomplete
-
-
-
+file_handler = logging.FileHandler('flask.log')
+app.logger.addHandler(file_handler)
 
 
 
@@ -115,6 +114,9 @@ def index():
 
 
 
+        
+
+
 
 
 
@@ -130,3 +132,7 @@ def index():
 
     else:
         return render_template("index.html")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

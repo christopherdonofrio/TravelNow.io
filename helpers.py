@@ -220,7 +220,7 @@ def search_flights(originIata, destIata, departDate, retDate):
 
         else:
 
-            flightInfo['departureOrigin'] = "skuh"
+            flightInfo['departureOrigin'] = "ERROR"
             flightInfo['departureDest'] = "ERROR"
             flightInfo['price'] = 0.0
 
