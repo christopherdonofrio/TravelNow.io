@@ -4,6 +4,12 @@
 A web based application that takes a users origin location, destination location, departure date,
 return date, and budget to estimate the price of a vacation to the destination.
 
+####Tips for avoiding errors
+I am using free API subscriptions, so there are request limits that may prevent results from appearing. The maximum usage of the website is 10 times per hour
+When answering the form, try to choose known cities in populated countries, smaller ones don't always have the necessary data
+In the autofill section of the form, leave the location as is (don't alter the auto-filled text)
+I haven't optimized the site for mobile devices, so it looks better on a computer
+
 
 ##### helpers.py
 
